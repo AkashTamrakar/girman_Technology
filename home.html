@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- YE PURE WEB PAGE KI STYLE SEET HAI  -->
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="first">
+                <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ7kkAMdIls0bEyK4SS73dL32fnGyVizeg2MDD1EpRDKzm_vaVt"
+                    class="image" alt="Girman Technologies Logo">
+                <h3 class="ai">Girman</h3>
+                <span class="hamburger" onclick="toggleMenu()">&#9776;</span>
+            </div>
+
+            <div class="second" id="nav-menu">
+                <a href="https://girmantech.com">Website</a>
+                <a href="https://www.linkedin.com/company/girman-technologies">LinkedIn</a>
+                <a href="mailto:contact@girmantech.com">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <div class="first-div">
+            <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ7kkAMdIls0bEyK4SS73dL32fnGyVizeg2MDD1EpRDKzm_vaVt"
+                class="image-div" alt="">
+            <h3 class="gi">Girman Technologies</h3>
+        </div>
+        <h1>Girman Technologies</h1>
+        <form id="searchForm">
+            <input type="text" id="query" placeholder="Enter search term">
+            <button type="submit">Search</button>
+        </form>
+        <div id="results"></div>
+
+    </main>
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalText"></div>
+        </div>
+    </div>
+
+    <script>
+        // User data from your JSON
+        const users = [
+            {
+                "image": "img3.jpg",
+                "first_name": "Amit",
+                "last_name": "Sharma",
+                "city": "Mumbai",
+                "contact_number": "9876543210"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Amit",
+                "last_name": "Verma",
+                "city": "Delhi",
+                "contact_number": "9123456789"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Sandeep",
+                "last_name": "Gupta",
+                "city": "Bangalore",
+                "contact_number": "9876549870"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Sandeep",
+                "last_name": "Kumar",
+                "city": "Hyderabad",
+                "contact_number": "9871234567"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Priya",
+                "last_name": "Mehta",
+                "city": "Ahmedabad",
+                "contact_number": "9874561230"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Priya",
+                "last_name": "Chopra",
+                "city": "Pune",
+                "contact_number": "9112345678"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Rajesh",
+                "last_name": "Singh",
+                "city": "Jaipur",
+                "contact_number": "9907654321"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Rajesh",
+                "last_name": "Yadav",
+                "city": "Lucknow",
+                "contact_number": "9812345678"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Ankita",
+                "last_name": "Patel",
+                "city": "Surat",
+                "contact_number": "9123459876"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Ankita",
+                "last_name": "Jain",
+                "city": "Chennai",
+                "contact_number": "9812341234"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Saurabh",
+                "last_name": "Shah",
+                "city": "Mumbai",
+                "contact_number": "9876541222"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Vikas",
+                "last_name": "Agarwal",
+                "city": "Delhi",
+                "contact_number": "9901234567"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Vikram",
+                "last_name": "Rao",
+                "city": "Bangalore",
+                "contact_number": "9123456543"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Sunil",
+                "last_name": "Mishra",
+                "city": "Kolkata",
+                "contact_number": "9123453212"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Sunita",
+                "last_name": "Joshi",
+                "city": "Pune",
+                "contact_number": "9876547890"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Suresh",
+                "last_name": "Nair",
+                "city": "Hyderabad",
+                "contact_number": "9909876543"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Ravi",
+                "last_name": "Pandey",
+                "city": "Chennai",
+                "contact_number": "9870987654"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Rakesh",
+                "last_name": "Iyer",
+                "city": "Mumbai",
+                "contact_number": "9123454321"
+            },
+            {
+                "image": "img2.jpg",
+                "first_name": "Preeti",
+                "last_name": "Thakur",
+                "city": "Indore",
+                "contact_number": "9876543444"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Rahul",
+                "last_name": "Bajpai",
+                "city": "Delhi",
+                "contact_number": "9123456781"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Gaurav",
+                "last_name": "Kapoor",
+                "city": "Noida",
+                "contact_number": "9876567890"
+            },
+            {
+                "image": "img2.jpg",
+                "first_name": "Sneha",
+                "last_name": "Saxena",
+                "city": "Chandigarh",
+                "contact_number": "9912345678"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Sameer",
+                "last_name": "Malhotra",
+                "city": "Gurgaon",
+                "contact_number": "9873214567"
+            },
+            {
+                "image": "img2.jpg",
+                "first_name": "Santosh",
+                "last_name": "Das",
+                "city": "Kolkata",
+                "contact_number": "9123456782"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Rohit",
+                "last_name": "Srivastava",
+                "city": "Varanasi",
+                "contact_number": "9877654321"
+            },
+            {
+                "image": "img2.jpg",
+                "first_name": "Poonam",
+                "last_name": "Singh",
+                "city": "Patna",
+                "contact_number": "9123456545"
+            },
+            {
+                "image": "img2.jpg",
+                "first_name": "Divya",
+                "last_name": "Bhatia",
+                "city": "Bhopal",
+                "contact_number": "9876542233"
+            },
+            {
+                "image": "img2.jpg",
+                "first_name": "Deepak",
+                "last_name": "Kohli",
+                "city": "Bangalore",
+                "contact_number": "9901231234"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Manish",
+                "last_name": "Reddy",
+                "city": "Hyderabad",
+                "contact_number": "9812346789"
+            },
+            {
+                "image": "img2.jpg",
+                "first_name": "Neha",
+                "last_name": "Varma",
+                "city": "Lucknow",
+                "contact_number": "9876545667"
+            },
+            {
+                "image": "img2.jpg",
+                "first_name": "Neha",
+                "last_name": "Pillai",
+                "city": "Delhi",
+                "contact_number": "9123457890"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Harish",
+                "last_name": "Bose",
+                "city": "Kolkata",
+                "contact_number": "9876541987"
+            },
+            {
+                "image": "img7.jpg",
+                "first_name": "Kiran",
+                "last_name": "Dutta",
+                "city": "Mumbai",
+                "contact_number": "9812345670"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Pradeep",
+                "last_name": "Malik",
+                "city": "Jaipur",
+                "contact_number": "9123458876"
+            },
+            {
+                "image": "img6.jpg",
+                "first_name": "Ishaan",
+                "last_name": "Gupta",
+                "city": "Surat",
+                "contact_number": "9908765432"
+            },
+            {
+                "image": "img6.jpg",
+                "first_name": "Ishita",
+                "last_name": "Sethi",
+                "city": "Chandigarh",
+                "contact_number": "9812341230"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Akash",
+                "last_name": "Ahuja",
+                "city": "Gurgaon",
+                "contact_number": "9123451223"
+            },
+            {
+                "image": "img6.jpg",
+                "first_name": "Alok",
+                "last_name": "Tiwari",
+                "city": "Indore",
+                "contact_number": "9901237654"
+            },
+            {
+                "image": "img6.jpg",
+                "first_name": "Aman",
+                "last_name": "Jaiswal",
+                "city": "Pune",
+                "contact_number": "9812348887"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Anup",
+                "last_name": "Saxena",
+                "city": "Bangalore",
+                "contact_number": "9876543345"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Arun",
+                "last_name": "Nanda",
+                "city": "Chennai",
+                "contact_number": "9123459988"
+            },
+            {
+                "image": "img6.jpg",
+                "first_name": "Aarti",
+                "last_name": "Bhardwaj",
+                "city": "Delhi",
+                "contact_number": "9876547765"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Nikhil",
+                "last_name": "Kapoor",
+                "city": "Jaipur",
+                "contact_number": "9901239876"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Pankaj",
+                "last_name": "Sharma",
+                "city": "Ahmedabad",
+                "contact_number": "9123455443"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Varun",
+                "last_name": "Chatterjee",
+                "city": "Kolkata",
+                "contact_number": "9876549009"
+            },
+            {
+                "image": "img6.jpg",
+                "first_name": "Asha",
+                "last_name": "Chawla",
+                "city": "Patna",
+                "contact_number": "9876549988"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Ashish",
+                "last_name": "Madhur",
+                "city": "Bhopal",
+                "contact_number": "9812346654"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Aditya",
+                "last_name": "Desai",
+                "city": "Surat",
+                "contact_number": "9876548876"
+            },
+
+            {
+                "image": "img3.jpg",
+                "first_name": "Amit",
+                "last_name": "Sharma",
+                "city": "Mumbai",
+                "contact_number": "9876543210"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Amit",
+                "last_name": "Verma",
+                "city": "Delhi",
+                "contact_number": "9123456789"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Sandeep",
+                "last_name": "Gupta",
+                "city": "Bangalore",
+                "contact_number": "9876549870"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Sandeep",
+                "last_name": "Kumar",
+                "city": "Hyderabad",
+                "contact_number": "9871234567"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Priya",
+                "last_name": "Mehta",
+                "city": "Ahmedabad",
+                "contact_number": "9874561230"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Priya",
+                "last_name": "Chopra",
+                "city": "Pune",
+                "contact_number": "9112345678"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Rajesh",
+                "last_name": "Singh",
+                "city": "Jaipur",
+                "contact_number": "9907654321"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Rajesh",
+                "last_name": "Yadav",
+                "city": "Lucknow",
+                "contact_number": "9812345678"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Ankita",
+                "last_name": "Patel",
+                "city": "Surat",
+                "contact_number": "9123459876"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Ankita",
+                "last_name": "Jain",
+                "city": "Chennai",
+                "contact_number": "9812341234"
+            },
+            {
+                "image": "img11.jpg",
+                "first_name": "Saurabh",
+                "last_name": "Shah",
+                "city": "Mumbai",
+                "contact_number": "9876541222"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Vikas",
+                "last_name": "Agarwal",
+                "city": "Delhi",
+                "contact_number": "9901234567"
+            },
+            {
+                "image": "img10.jpg",
+                "first_name": "Vikram",
+                "last_name": "Rao",
+                "city": "Bangalore",
+                "contact_number": "9123456543"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Sunil",
+                "last_name": "Mishra",
+                "city": "Kolkata",
+                "contact_number": "9123453212"
+            },
+            {
+                "image": "img11.jpg",
+                "first_name": "Sunita",
+                "last_name": "Joshi",
+                "city": "Pune",
+                "contact_number": "9876547890"
+            },
+            {
+                "image": "img12.jpg",
+                "first_name": "Suresh",
+                "last_name": "Nair",
+                "city": "Hyderabad",
+                "contact_number": "9909876543"
+            },
+            {
+                "image": "img9.jpg",
+                "first_name": "Ravi",
+                "last_name": "Pandey",
+                "city": "Chennai",
+                "contact_number": "9870987654"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Rakesh",
+                "last_name": "Iyer",
+                "city": "Mumbai",
+                "contact_number": "9123454321"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Preeti",
+                "last_name": "Thakur",
+                "city": "Indore",
+                "contact_number": "9876543444"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Rahul",
+                "last_name": "Bajpai",
+                "city": "Delhi",
+                "contact_number": "9123456781"
+            },
+            {
+                "image": "img10.jpg",
+                "first_name": "Gaurav",
+                "last_name": "Kapoor",
+                "city": "Noida",
+                "contact_number": "9876567890"
+            },
+            {
+                "image": "img11.jpg",
+                "first_name": "Sneha",
+                "last_name": "Saxena",
+                "city": "Chandigarh",
+                "contact_number": "9912345678"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Sameer",
+                "last_name": "Malhotra",
+                "city": "Gurgaon",
+                "contact_number": "9873214567"
+            },
+            {
+                "image": "img7.jpg",
+                "first_name": "Santosh",
+                "last_name": "Das",
+                "city": "Kolkata",
+                "contact_number": "9123456782"
+            },
+            {
+                "image": "img6.jpg",
+                "first_name": "Rohit",
+                "last_name": "Srivastava",
+                "city": "Varanasi",
+                "contact_number": "9877654321"
+            },
+            {
+                "image": "img8.jpg",
+                "first_name": "Poonam",
+                "last_name": "Singh",
+                "city": "Patna",
+                "contact_number": "9123456545"
+            },
+            {
+                "image": "img9.jpg",
+                "first_name": "Divya",
+                "last_name": "Bhatia",
+                "city": "Bhopal",
+                "contact_number": "9876542233"
+            },
+            {
+                "image": "img12.jpg",
+                "first_name": "Deepak",
+                "last_name": "Kohli",
+                "city": "Bangalore",
+                "contact_number": "9901231234"
+            },
+            {
+                "image": "img11.jpg",
+                "first_name": "Manish",
+                "last_name": "Reddy",
+                "city": "Hyderabad",
+                "contact_number": "9812346789"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Neha",
+                "last_name": "Varma",
+                "city": "Lucknow",
+                "contact_number": "9876545667"
+            },
+            {
+                "image": "img1.jpg",
+                "first_name": "Neha",
+                "last_name": "Pillai",
+                "city": "Delhi",
+                "contact_number": "9123457890"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Harish",
+                "last_name": "Bose",
+                "city": "Kolkata",
+                "contact_number": "9876541987"
+            },
+            {
+                "image": "img7.jpg",
+                "first_name": "Kiran",
+                "last_name": "Dutta",
+                "city": "Mumbai",
+                "contact_number": "9812345670"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Pradeep",
+                "last_name": "Malik",
+                "city": "Jaipur",
+                "contact_number": "9123458876"
+            },
+            {
+                "image": "img10.jpg",
+                "first_name": "Ishaan",
+                "last_name": "Gupta",
+                "city": "Surat",
+                "contact_number": "9908765432"
+            },
+            {
+                "image": "img12.jpg",
+                "first_name": "Ishita",
+                "last_name": "Sethi",
+                "city": "Chandigarh",
+                "contact_number": "9812341230"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Akash",
+                "last_name": "Ahuja",
+                "city": "Gurgaon",
+                "contact_number": "9123451223"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Alok",
+                "last_name": "Tiwari",
+                "city": "Indore",
+                "contact_number": "9901237654"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Aman",
+                "last_name": "Jaiswal",
+                "city": "Pune",
+                "contact_number": "9812348887"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Anup",
+                "last_name": "Saxena",
+                "city": "Bangalore",
+                "contact_number": "9876543345"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Arun",
+                "last_name": "Nanda",
+                "city": "Chennai",
+                "contact_number": "9123459988"
+            },
+            {
+                "image": "img11.jpg",
+                "first_name": "Aarti",
+                "last_name": "Bhardwaj",
+                "city": "Delhi",
+                "contact_number": "9876547765"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Nikhil",
+                "last_name": "Kapoor",
+                "city": "Jaipur",
+                "contact_number": "9901239876"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Pankaj",
+                "last_name": "Sharma",
+                "city": "Ahmedabad",
+                "contact_number": "9123455443"
+            },
+            {
+                "image": "img3.jpg",
+                "first_name": "Varun",
+                "last_name": "Chatterjee",
+                "city": "Kolkata",
+                "contact_number": "9876549009"
+            },
+            {
+                "image": "img6.jpg",
+                "first_name": "Asha",
+                "last_name": "Chawla",
+                "city": "Patna",
+                "contact_number": "9876549988"
+            },
+            {
+                "image": "img5.jpg",
+                "first_name": "Ashish",
+                "last_name": "Madhur",
+                "city": "Bhopal",
+                "contact_number": "9812346654"
+            },
+            {
+                "image": "img4.jpg",
+                "first_name": "Aditya",
+                "last_name": "Desai",
+                "city": "Surat",
+                "contact_number": "9876548876"
+            }
+        ];
+    </script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
